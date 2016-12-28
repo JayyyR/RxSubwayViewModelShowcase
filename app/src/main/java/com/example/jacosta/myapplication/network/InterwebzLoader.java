@@ -3,6 +3,7 @@ package com.example.jacosta.myapplication.network;
 import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -30,6 +31,7 @@ public class InterwebzLoader {
             mRetroFit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
         }
 

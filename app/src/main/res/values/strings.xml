@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="l_fucked">Is the L fucked?</string>
+    <string name="app_name">NYC Subway Stations</string>
 </resources>
