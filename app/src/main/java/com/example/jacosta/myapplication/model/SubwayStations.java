@@ -14,13 +14,11 @@ import java.util.HashMap;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
  * Created by jacosta on 12/28/16.
+ * Model object for loading SubwayStations
  */
 
 public class SubwayStations implements Serializable {
@@ -33,34 +31,17 @@ public class SubwayStations implements Serializable {
         InterwebzLoader.getSubwayAPI().getStations()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<SubwayStations, Observable<Station>>() {
-                    @Override
-                    public Observable<Station> call(SubwayStations station) {
-                        //grab each station from the collection
-                        return Observable.from(station.result);
-                    }
-                })
+                .flatMap(station -> Observable.from(station.result))
                 .subscribe(
-                        new Action1<Station>() {
-                            @Override
-                            public void call(Station station) {
-                                //only grab unique stations
-                                stationMap.put(station.name, station);
-                            }
+                        station -> {
+                            stationMap.put(station.name, station); //only grab unique stations
                         },
-                        new Action1<Throwable>() {
-                            @Override
-                            public void call(Throwable throwable) {
-
-                            }
+                        throwable -> {
                         },
-                        new Action0() {
-                            @Override
-                            public void call() {
-                                ArrayList<Station> stations = new ArrayList<>(stationMap.values());
-                                Collections.sort(stations, new Station.StationComparator());
-                                EventBus.getDefault().post(new LoadStationEvent(stations));
-                            }
+                        () -> {
+                            ArrayList<Station> stations = new ArrayList<>(stationMap.values());
+                            Collections.sort(stations, new Station.StationComparator());
+                            EventBus.getDefault().post(new LoadStationEvent(stations));
                         }
                 );
     }
@@ -81,10 +62,8 @@ public class SubwayStations implements Serializable {
             return name;
         }
 
-        static class StationComparator implements Comparator<Station>
-        {
-            public int compare(Station c1, Station c2)
-            {
+        static class StationComparator implements Comparator<Station> {
+            public int compare(Station c1, Station c2) {
                 return c1.getName().compareTo(c2.getName());
             }
         }
