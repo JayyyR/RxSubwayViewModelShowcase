@@ -1,16 +1,16 @@
 package com.example.jacosta.myapplication.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.view.View;
 
-import com.example.jacosta.myapplication.Events.LoadStationEvent;
+import com.example.jacosta.myapplication.events.LoadStationEvent;
 import com.example.jacosta.myapplication.model.SubwayStations;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jacosta on 12/28/16.
@@ -40,6 +40,7 @@ public class HomeScreenViewModel extends BaseObservable {
         notifyChange();
     }
 
+    @Bindable
     public int getLoadingVisibility(){
         if (mStations == null){
             return View.VISIBLE;

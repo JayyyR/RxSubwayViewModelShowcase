@@ -1,6 +1,6 @@
 package com.example.jacosta.myapplication.model;
 
-import com.example.jacosta.myapplication.Events.LoadStationEvent;
+import com.example.jacosta.myapplication.events.LoadStationEvent;
 import com.example.jacosta.myapplication.network.InterwebzLoader;
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

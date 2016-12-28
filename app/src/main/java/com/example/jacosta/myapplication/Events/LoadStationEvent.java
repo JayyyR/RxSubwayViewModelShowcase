@@ -1,9 +1,8 @@
-package com.example.jacosta.myapplication.Events;
+package com.example.jacosta.myapplication.events;
 
 import com.example.jacosta.myapplication.model.SubwayStations;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jacosta on 12/28/16.
