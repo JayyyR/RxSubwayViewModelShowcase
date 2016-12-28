@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 
 public class InterwebzLoader {
 
-    private static final String BASE_URL = "http://datamine.mta.info";
+    private static final String BASE_URL = "mtaapi.herokuapp.com";
 
     private static SubwayAPI mSubwayAPI;
     private static Retrofit mRetroFit;

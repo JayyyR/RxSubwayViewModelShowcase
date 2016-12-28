@@ -12,6 +12,6 @@ import retrofit2.http.Path;
 
 public interface SubwayAPI {
 
-    @GET("/mta_esi.php?key={key}&feed_id=2")
-    Call<JSONObject> getLInfo(@Path("key") String key);
+    @GET("/stations")
+    Call<Object> getStations();
 }
