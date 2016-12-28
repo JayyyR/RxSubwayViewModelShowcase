@@ -6,7 +6,7 @@ import retrofit2.Retrofit;
  * Created by jacosta on 12/28/16.
  */
 
-public class RetrofitInstance {
+public class InterwebzLoader {
 
     private static final String BASE_URL = "http://datamine.mta.info";
 

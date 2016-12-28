@@ -1,6 +1,6 @@
 package com.example.jacosta.myapplication;
 
-import com.example.jacosta.myapplication.network.RetrofitInstance;
+import com.example.jacosta.myapplication.network.InterwebzLoader;
 
 import org.junit.Test;
 
@@ -19,6 +19,6 @@ public class ExampleUnitTest {
 
     @Test
     public void subwayAPI_notNull() throws Exception {
-        assertNotNull(RetrofitInstance.getSubwayAPI());
+        assertNotNull(InterwebzLoader.getSubwayAPI());
     }
 }
