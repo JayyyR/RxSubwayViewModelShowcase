@@ -10,8 +10,6 @@ import com.squareup.leakcanary.LeakCanary;
 
 public class App extends Application {
 
-    public static final String KEY = "79f593bdb89bd0ed8e757604961fe53b";
-
     @Override
     public void onCreate() {
         super.onCreate();

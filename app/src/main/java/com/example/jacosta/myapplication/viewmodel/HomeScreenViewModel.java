@@ -1,13 +1,16 @@
 package com.example.jacosta.myapplication.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.view.View;
 
-import com.example.jacosta.myapplication.network.InterwebzLoader;
-import com.example.jacosta.myapplication.persistent.App;
+import com.example.jacosta.myapplication.Events.LoadStationEvent;
+import com.example.jacosta.myapplication.model.SubwayStations;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jacosta on 12/28/16.
@@ -16,17 +19,40 @@ import retrofit2.Response;
 
 public class HomeScreenViewModel extends BaseObservable {
 
-    public void isTheLFucked(){
-        InterwebzLoader.getSubwayAPI().getStations(App.KEY).enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                System.out.println();
-            }
+    private ArrayList<SubwayStations.Station> mStations;
 
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                System.out.println();
-            }
-        });
+    public HomeScreenViewModel(){
+        EventBus.getDefault().register(this);
+        SubwayStations.loadStations();
+    }
+
+    public HomeScreenViewModel(ArrayList<SubwayStations.Station> stations){
+        EventBus.getDefault().register(this);
+        setStations(stations);
+    }
+
+    public ArrayList<SubwayStations.Station> getStations(){
+        return mStations;
+    }
+
+    private void setStations(ArrayList<SubwayStations.Station> stations){
+        mStations = stations;
+        notifyChange();
+    }
+
+    public int getLoadingVisibility(){
+        if (mStations == null){
+            return View.VISIBLE;
+        }
+        return View.GONE;
+    }
+
+    @Subscribe
+    public void onStationsLoaded(LoadStationEvent event){
+        setStations(event.stations);
+    }
+
+    public void destroy() {
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -21,4 +21,5 @@ public class ExampleUnitTest {
     public void subwayAPI_notNull() throws Exception {
         assertNotNull(InterwebzLoader.getSubwayAPI());
     }
+
 }
