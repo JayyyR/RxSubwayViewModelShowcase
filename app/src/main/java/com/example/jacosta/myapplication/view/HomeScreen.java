@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,16 +33,19 @@ public class HomeScreen extends AppCompatActivity implements ViewStackDelegate {
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.page_home, null, false);
         setContentView(mBinding.getRoot());
 
-        mStack = ViewStack.create((ViewGroup)findViewById(R.id.app_content), this);
+        mBinding.stationList.setLayoutManager(new LinearLayoutManager(this));
 
+        //restore state
         if (savedInstanceState != null
                 && savedInstanceState.getSerializable(STATIONS_KEY) != null){
-            mViewModel = new HomeScreenViewModel((ArrayList<SubwayStations.Station>) savedInstanceState.getSerializable(STATIONS_KEY));
+            mViewModel = new HomeScreenViewModel((ArrayList<SubwayStations.Station>) savedInstanceState.getSerializable(STATIONS_KEY), mBinding);
         } else {
-            mViewModel = new HomeScreenViewModel();
+            mViewModel = new HomeScreenViewModel(mBinding);
         }
-        mBinding.setViewModel(mViewModel);
 
+
+        mBinding.setViewModel(mViewModel);
+        mStack = ViewStack.create((ViewGroup)findViewById(R.id.app_content), this);
     }
 
     @Override

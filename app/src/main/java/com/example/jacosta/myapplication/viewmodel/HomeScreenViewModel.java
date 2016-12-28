@@ -2,10 +2,13 @@ package com.example.jacosta.myapplication.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.example.jacosta.myapplication.databinding.PageHomeBinding;
 import com.example.jacosta.myapplication.events.LoadStationEvent;
 import com.example.jacosta.myapplication.model.SubwayStations;
+import com.example.jacosta.myapplication.view.adapter.StationAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,14 +23,17 @@ import java.util.ArrayList;
 public class HomeScreenViewModel extends BaseObservable {
 
     private ArrayList<SubwayStations.Station> mStations;
+    private PageHomeBinding mBinding;
 
-    public HomeScreenViewModel(){
+    public HomeScreenViewModel(PageHomeBinding binding){
         EventBus.getDefault().register(this);
+        mBinding = binding;
         SubwayStations.loadStations();
     }
 
-    public HomeScreenViewModel(ArrayList<SubwayStations.Station> stations){
+    public HomeScreenViewModel(ArrayList<SubwayStations.Station> stations, PageHomeBinding binding){
         EventBus.getDefault().register(this);
+        mBinding = binding;
         setStations(stations);
     }
 
@@ -37,6 +43,7 @@ public class HomeScreenViewModel extends BaseObservable {
 
     private void setStations(ArrayList<SubwayStations.Station> stations){
         mStations = stations;
+        mBinding.stationList.setAdapter(new StationAdapter(mStations));
         notifyChange();
     }
 
@@ -46,6 +53,14 @@ public class HomeScreenViewModel extends BaseObservable {
             return View.VISIBLE;
         }
         return View.GONE;
+    }
+
+    @Bindable
+    public int getStationsVisibility(){
+        if (mStations == null){
+            return View.GONE;
+        }
+        return View.VISIBLE;
     }
 
     @Subscribe

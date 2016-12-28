@@ -11,12 +11,16 @@
 
    <android.support.v7.widget.CardView
        android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_height="wrap_content">
 
 
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:textColor="@color/primary_text"
+           android:textStyle="bold"
+           android:padding="@dimen/activity_horizontal_margin"
+           style="@style/Base.TextAppearance.AppCompat.Title"
            android:text="@{viewModel.stationName}"/>
    </android.support.v7.widget.CardView>
 

@@ -3,9 +3,7 @@ package com.example.jacosta.myapplication.view.adapter;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.jacosta.myapplication.R;
 import com.example.jacosta.myapplication.databinding.StationCardBinding;
@@ -28,7 +26,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationV
 
     @Override
     public StationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        StationCardBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.page_home, parent, false);
+        StationCardBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.station_card, parent, false);
         return new StationViewHolder(binding);
     }
 
