@@ -1,5 +1,6 @@
 package com.example.jacosta.myapplication;
 
+import com.example.jacosta.myapplication.model.SubwayStations;
 import com.example.jacosta.myapplication.network.InterwebzLoader;
 
 import org.junit.Test;

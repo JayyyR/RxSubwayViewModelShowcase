@@ -2,10 +2,9 @@ package com.example.jacosta.myapplication.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.example.jacosta.myapplication.databinding.PageHomeBinding;
+import com.example.jacosta.myapplication.databinding.HomeScreenBinding;
 import com.example.jacosta.myapplication.events.LoadStationEvent;
 import com.example.jacosta.myapplication.model.SubwayStations;
 import com.example.jacosta.myapplication.view.adapter.StationAdapter;
@@ -23,15 +22,15 @@ import java.util.ArrayList;
 public class HomeScreenViewModel extends BaseObservable {
 
     private ArrayList<SubwayStations.Station> mStations;
-    private PageHomeBinding mBinding;
+    private HomeScreenBinding mBinding;
 
-    public HomeScreenViewModel(PageHomeBinding binding){
+    public HomeScreenViewModel(HomeScreenBinding binding){
         EventBus.getDefault().register(this);
         mBinding = binding;
         SubwayStations.loadStations();
     }
 
-    public HomeScreenViewModel(ArrayList<SubwayStations.Station> stations, PageHomeBinding binding){
+    public HomeScreenViewModel(ArrayList<SubwayStations.Station> stations, HomeScreenBinding binding){
         EventBus.getDefault().register(this);
         mBinding = binding;
         setStations(stations);

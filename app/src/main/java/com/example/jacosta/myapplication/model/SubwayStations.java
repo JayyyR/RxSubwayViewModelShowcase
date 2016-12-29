@@ -31,7 +31,7 @@ public class SubwayStations implements Serializable {
         InterwebzLoader.getSubwayAPI().getStations()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(station -> Observable.from(station.result))
+                .flatMap(subwayStations -> Observable.from(subwayStations.result))
                 .subscribe(
                         station -> {
                             stationMap.put(station.name, station); //only grab unique stations

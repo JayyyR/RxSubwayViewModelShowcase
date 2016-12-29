@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+    <variable
+        name="viewModel"
+        type="com.example.jacosta.myapplication.viewmodel.StationScreenViewModel" />
+    </data>
+
+    <com.example.jacosta.myapplication.view.StationScreen
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary_light"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.stationName}"/>
+
+    </com.example.jacosta.myapplication.view.StationScreen>
+</layout>
