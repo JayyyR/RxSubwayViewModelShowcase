@@ -32,7 +32,6 @@ public class HomeScreen extends Screen {
     private Parcelable mSavedRecyclerLayoutState;
 
     public static class Factory extends ViewFactory {
-
         @Override
         public int getLayoutResource() {
             return R.layout.home_screen;

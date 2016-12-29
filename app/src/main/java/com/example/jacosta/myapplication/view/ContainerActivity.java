@@ -1,19 +1,11 @@
 package com.example.jacosta.myapplication.view;
-
-import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.example.jacosta.myapplication.R;
 import com.example.jacosta.myapplication.events.StationClickedEvent;
-import com.example.jacosta.myapplication.model.SubwayStations;
-import com.example.jacosta.myapplication.viewmodel.HomeScreenViewModel;
 import com.joeracosta.library.Stack.ViewStack;
 import com.joeracosta.library.Stack.ViewStackDelegate;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
