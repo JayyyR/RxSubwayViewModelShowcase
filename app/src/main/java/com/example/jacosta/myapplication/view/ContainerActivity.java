@@ -30,8 +30,12 @@ public class ContainerActivity extends LifecycleActivity implements ViewStackDel
         if (savedInstanceState != null) {
             mStack.rebuildFromBundle(savedInstanceState, STACK_TAG);
         } else {
-            mStack.push(new HomeScreen.Factory());
+            mStack.push(new TestView.Factory());
         }
+    }
+
+    public void pushHomeScreen(){
+        mStack.push(new HomeScreen.Factory());
     }
 
     @Override

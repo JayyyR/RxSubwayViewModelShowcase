@@ -2,12 +2,13 @@ package com.example.jacosta.myapplication.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.example.jacosta.myapplication.BaseObservableViewModel;
 import com.example.jacosta.myapplication.model.SubwayStations;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.HashMap;
  * ViewModel for my Home Screen
  */
 
-public class HomeScreenViewModel extends BaseObservableViewModel {
+public class HomeScreenViewModel extends BaseObservable implements Serializable {
 
     private MutableLiveData<ArrayList<SubwayStations.Station>> mStations;
     private boolean isLoaded;

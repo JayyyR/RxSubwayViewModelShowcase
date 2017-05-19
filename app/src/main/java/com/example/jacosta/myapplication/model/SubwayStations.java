@@ -3,11 +3,8 @@ package com.example.jacosta.myapplication.model;
 import com.example.jacosta.myapplication.network.InterwebzLoader;
 import com.google.gson.annotations.SerializedName;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 

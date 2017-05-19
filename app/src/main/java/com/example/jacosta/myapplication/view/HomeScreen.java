@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class HomeScreen extends Screen {
     private static final String BUNDLE_RECYCLER_LAYOUT = "serialied_recycler_view";
+    private static final String BUNDLE_VIEWMODEL_KEY = "serialized_view_model";
 
     private HomeScreenBinding mBinding;
     private HomeScreenViewModel mViewModel;
@@ -49,22 +50,19 @@ public class HomeScreen extends Screen {
     protected void onScreenAttached() {
         super.onScreenAttached();
         mBinding = DataBindingUtil.bind(this);
-
         mBinding.stationList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         //recyclerview position
         if (mSavedRecyclerLayoutState != null){
             mBinding.stationList.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
             mSavedRecyclerLayoutState = null;
         }
 
-
-        mViewModel = ViewModelProviders.of((LifecycleActivity) getContext()).get(HomeScreenViewModel.class);
-        mViewModel.getStations().observe((LifecycleActivity) getContext(), new Observer<ArrayList<SubwayStations.Station>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<SubwayStations.Station> stations) {
-                mBinding.stationList.setAdapter(new StationAdapter(stations));
-            }
-        });
+        if (mViewModel == null) {
+            mViewModel = new HomeScreenViewModel();
+        }
+        mViewModel.getStations().observe((LifecycleActivity) getContext(), stations
+                -> mBinding.stationList.setAdapter(new StationAdapter(stations)));
         mBinding.setViewModel(mViewModel);
     }
 
@@ -76,6 +74,7 @@ public class HomeScreen extends Screen {
     @Override
     protected Bundle onSaveState(Bundle bundle) {
         bundle.putParcelable(BUNDLE_RECYCLER_LAYOUT, mBinding.stationList.getLayoutManager().onSaveInstanceState());
+        bundle.putSerializable(BUNDLE_VIEWMODEL_KEY, mViewModel);
         return bundle;
     }
 
@@ -84,6 +83,9 @@ public class HomeScreen extends Screen {
         if (bundle != null) {
             if (bundle.getParcelable(BUNDLE_RECYCLER_LAYOUT) != null){
                 mSavedRecyclerLayoutState = bundle.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            }
+            if (bundle.getSerializable(BUNDLE_VIEWMODEL_KEY) != null){
+                mViewModel = (HomeScreenViewModel) bundle.getSerializable(BUNDLE_VIEWMODEL_KEY);
             }
         }
     }

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.jacosta.myapplication.view.TestView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <Button
+        android:id="@+id/test_button"
+        android:text="Go to Subway Stations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.example.jacosta.myapplication.view.TestView>
