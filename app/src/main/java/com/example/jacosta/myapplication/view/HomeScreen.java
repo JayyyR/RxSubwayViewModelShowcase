@@ -1,15 +1,18 @@
 package com.example.jacosta.myapplication.view;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 
 import com.example.jacosta.myapplication.R;
 import com.example.jacosta.myapplication.databinding.HomeScreenBinding;
 import com.example.jacosta.myapplication.model.SubwayStations;
+import com.example.jacosta.myapplication.view.adapter.StationAdapter;
 import com.example.jacosta.myapplication.viewmodel.HomeScreenViewModel;
 import com.joeracosta.library.Screen;
 import com.joeracosta.library.ViewFactory;
@@ -48,20 +51,17 @@ public class HomeScreen extends Screen {
         mBinding = DataBindingUtil.bind(this);
 
         mBinding.stationList.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        //restore state
-        if (mStations == null) {
-            mViewModel = new HomeScreenViewModel(mBinding);
-        } else {
-            mViewModel = new HomeScreenViewModel(mStations, mBinding);
-        }
-
         //recyclerview position
         if (mSavedRecyclerLayoutState != null){
             mBinding.stationList.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
             mSavedRecyclerLayoutState = null;
         }
 
+
+        mViewModel = ViewModelProviders.of((FragmentActivity) getContext()).get(HomeScreenViewModel.class);
+        mViewModel.getStationsObservable().subscribe(stations -> {
+            mBinding.stationList.setAdapter(new StationAdapter(stations));
+        });
         mBinding.setViewModel(mViewModel);
     }
 
@@ -75,7 +75,6 @@ public class HomeScreen extends Screen {
     @Override
     protected Bundle onSaveState(Bundle bundle) {
         bundle.putParcelable(BUNDLE_RECYCLER_LAYOUT, mBinding.stationList.getLayoutManager().onSaveInstanceState());
-        bundle.putSerializable(STATIONS_KEY, mViewModel.getStations());
         return bundle;
     }
 

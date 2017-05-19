@@ -1,6 +1,5 @@
 package com.example.jacosta.myapplication.model;
 
-import com.example.jacosta.myapplication.events.LoadStationEvent;
 import com.example.jacosta.myapplication.network.InterwebzLoader;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -26,25 +26,6 @@ public class SubwayStations implements Serializable {
     @SerializedName("result")
     public ArrayList<Station> result;
 
-    public static void loadStations() {
-        final HashMap<String, Station> stationMap = new HashMap<>();
-        InterwebzLoader.getSubwayAPI().getStations()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(subwayStations -> Observable.from(subwayStations.result)) //separate out stations 1 by 1
-                .subscribe(
-                        station -> {
-                            stationMap.put(station.name, station); //only grab unique stations
-                        },
-                        throwable -> {
-                        },
-                        () -> {
-                            ArrayList<Station> stations = new ArrayList<>(stationMap.values());
-                            Collections.sort(stations, new Station.StationComparator());
-                            EventBus.getDefault().post(new LoadStationEvent(stations));
-                        }
-                );
-    }
 
     public static class Station implements Serializable {
 
@@ -62,11 +43,19 @@ public class SubwayStations implements Serializable {
             return name;
         }
 
-        static class StationComparator implements Comparator<Station> {
+        public static class StationComparator implements Comparator<Station> {
             public int compare(Station c1, Station c2) {
                 return c1.getName().compareTo(c2.getName());
             }
         }
+
+    }
+
+    public static Observable<Station> loadStations() {
+        return InterwebzLoader.getSubwayAPI().getStations()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(subwayStations -> Observable.from(subwayStations.result)); //separate out stations 1 by 1
 
     }
 }
