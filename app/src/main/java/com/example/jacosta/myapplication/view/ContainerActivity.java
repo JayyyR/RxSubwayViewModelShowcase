@@ -1,4 +1,5 @@
 package com.example.jacosta.myapplication.view;
+import android.arch.lifecycle.LifecycleActivity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
-public class ContainerActivity extends FragmentActivity implements ViewStackDelegate {
+public class ContainerActivity extends LifecycleActivity implements ViewStackDelegate {
 
 
     private static final String STACK_TAG = "viewstack_key";

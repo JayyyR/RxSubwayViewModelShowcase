@@ -1,10 +1,13 @@
 package com.example.jacosta.myapplication.view;
 
+import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
@@ -25,13 +28,10 @@ import java.util.ArrayList;
  */
 
 public class HomeScreen extends Screen {
-
-    private static final String STATIONS_KEY = "seralized_stations";
     private static final String BUNDLE_RECYCLER_LAYOUT = "serialied_recycler_view";
 
     private HomeScreenBinding mBinding;
     private HomeScreenViewModel mViewModel;
-    private ArrayList<SubwayStations.Station> mStations;
     private Parcelable mSavedRecyclerLayoutState;
 
     public static class Factory extends ViewFactory {
@@ -58,9 +58,12 @@ public class HomeScreen extends Screen {
         }
 
 
-        mViewModel = ViewModelProviders.of((FragmentActivity) getContext()).get(HomeScreenViewModel.class);
-        mViewModel.getStationsObservable().subscribe(stations -> {
-            mBinding.stationList.setAdapter(new StationAdapter(stations));
+        mViewModel = ViewModelProviders.of((LifecycleActivity) getContext()).get(HomeScreenViewModel.class);
+        mViewModel.getStations().observe((LifecycleActivity) getContext(), new Observer<ArrayList<SubwayStations.Station>>() {
+            @Override
+            public void onChanged(@Nullable ArrayList<SubwayStations.Station> stations) {
+                mBinding.stationList.setAdapter(new StationAdapter(stations));
+            }
         });
         mBinding.setViewModel(mViewModel);
     }
@@ -68,8 +71,6 @@ public class HomeScreen extends Screen {
     @Override
     protected void onScreenDetached() {
         super.onScreenDetached();
-
-        mViewModel.destroy();
     }
 
     @Override
@@ -81,10 +82,6 @@ public class HomeScreen extends Screen {
     @Override
     protected void onRestoreState(Bundle bundle) {
         if (bundle != null) {
-            if (bundle.getSerializable(STATIONS_KEY) != null) {
-                mStations = (ArrayList<SubwayStations.Station>) bundle.getSerializable(STATIONS_KEY);
-            }
-
             if (bundle.getParcelable(BUNDLE_RECYCLER_LAYOUT) != null){
                 mSavedRecyclerLayoutState = bundle.getParcelable(BUNDLE_RECYCLER_LAYOUT);
             }
