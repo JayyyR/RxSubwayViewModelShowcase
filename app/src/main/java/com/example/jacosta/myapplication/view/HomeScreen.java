@@ -21,6 +21,7 @@ import com.joeracosta.library.Screen;
 import com.joeracosta.library.ViewFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jacosta on 12/28/16.
@@ -57,20 +58,15 @@ public class HomeScreen extends Screen {
             mSavedRecyclerLayoutState = null;
         }
 
-
         mViewModel = ViewModelProviders.of((LifecycleActivity) getContext()).get(HomeScreenViewModel.class);
-        mViewModel.getStations().observe((LifecycleActivity) getContext(), new Observer<ArrayList<SubwayStations.Station>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<SubwayStations.Station> stations) {
-                mBinding.stationList.setAdapter(new StationAdapter(stations));
-            }
-        });
+        mViewModel.getStations().observe((LifecycleActivity) getContext(), setStations);
         mBinding.setViewModel(mViewModel);
     }
 
     @Override
     protected void onScreenDetached() {
         super.onScreenDetached();
+        mViewModel.getStations().removeObserver(setStations);
     }
 
     @Override
@@ -87,6 +83,9 @@ public class HomeScreen extends Screen {
             }
         }
     }
+
+    private Observer<ArrayList<SubwayStations.Station>> setStations = (Observer<ArrayList<SubwayStations.Station>>) stations ->
+        mBinding.stationList.setAdapter(new StationAdapter(stations));
 
     @Override
     public int getViewId() {

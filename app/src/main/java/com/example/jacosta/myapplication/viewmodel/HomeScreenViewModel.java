@@ -28,7 +28,6 @@ public class HomeScreenViewModel extends BaseObservableViewModel {
             loadStations();
         }
         return mStations;
-
     }
 
     private void loadStations() {
