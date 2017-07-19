@@ -4,13 +4,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.Bindable;
 import android.view.View;
-
 import com.example.jacosta.myapplication.BaseObservableViewModel;
 import com.example.jacosta.myapplication.model.SubwayStations;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
+import rx.Subscription;
 
 /**
  * Created by jacosta on 12/28/16.
@@ -21,6 +21,7 @@ public class HomeScreenViewModel extends BaseObservableViewModel {
 
     private MutableLiveData<ArrayList<SubwayStations.Station>> mStations;
     private boolean isLoaded;
+    private Subscription stationSubscription;
 
     public LiveData<ArrayList<SubwayStations.Station>> getStations() {
         if (mStations == null) {
@@ -32,7 +33,7 @@ public class HomeScreenViewModel extends BaseObservableViewModel {
 
     private void loadStations() {
         final HashMap<String, SubwayStations.Station> stationMap = new HashMap<>();
-        SubwayStations.loadStations().subscribe(
+        stationSubscription = SubwayStations.loadStations().subscribe(
                 station -> {
                     stationMap.put(station.getName(), station); //only grab unique stations
                 },
@@ -46,7 +47,14 @@ public class HomeScreenViewModel extends BaseObservableViewModel {
                     notifyChange();
                 }
         );
+    }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        if (stationSubscription != null){
+            stationSubscription.unsubscribe();
+        }
     }
 
     @Bindable
